@@ -364,10 +364,10 @@ RCT_REMAP_METHOD(logout,
     appDelegate.authorizationFlowManagerDelegate = self;
     __weak typeof(self) weakSelf = self;
 
-//    rnAppAuthTaskId = [UIApplication.sharedApplication beginBackgroundTaskWithExpirationHandler:^{
-//        [UIApplication.sharedApplication endBackgroundTask:rnAppAuthTaskId];
-//        rnAppAuthTaskId = UIBackgroundTaskInvalid;
-//    }];
+    rnAppAuthTaskId = [UIApplication.sharedApplication beginBackgroundTaskWithExpirationHandler:^{
+        [UIApplication.sharedApplication endBackgroundTask:rnAppAuthTaskId];
+        rnAppAuthTaskId = UIBackgroundTaskInvalid;
+    }];
 
     UIViewController *presentingViewController = appDelegate.window.rootViewController.view.window ? appDelegate.window.rootViewController : appDelegate.window.rootViewController.presentedViewController;
     id<OIDExternalUserAgent> externalUserAgent = iosCustomBrowser != nil ? [self getCustomBrowser: iosCustomBrowser] : nil;
@@ -375,8 +375,8 @@ RCT_REMAP_METHOD(logout,
     OIDAuthorizationCallback callback = ^(OIDAuthorizationResponse *_Nullable authorizationResponse, NSError *_Nullable error) {
                                                    typeof(self) strongSelf = weakSelf;
                                                    strongSelf->_currentSession = nil;
-//                                                   [UIApplication.sharedApplication endBackgroundTask:rnAppAuthTaskId];
-//                                                   rnAppAuthTaskId = UIBackgroundTaskInvalid;
+                                                   [UIApplication.sharedApplication endBackgroundTask:rnAppAuthTaskId];
+                                                   rnAppAuthTaskId = UIBackgroundTaskInvalid;
                                                    if (authorizationResponse) {
                                                        resolve([self formatAuthorizationResponse:authorizationResponse withCodeVerifier:codeVerifier]);
                                                    } else {
@@ -414,8 +414,8 @@ RCT_REMAP_METHOD(logout,
                                                                 NSError *_Nullable error) {
                                                         typeof(self) strongSelf = weakSelf;
                                                         strongSelf->_currentSession = nil;
-//                                                        [UIApplication.sharedApplication endBackgroundTask:rnAppAuthTaskId];
-//                                                        rnAppAuthTaskId = UIBackgroundTaskInvalid;
+                                                        [UIApplication.sharedApplication endBackgroundTask:rnAppAuthTaskId];
+                                                        rnAppAuthTaskId = UIBackgroundTaskInvalid;
                                                         if (authState) {
                                                             resolve([self formatResponse:authState.lastTokenResponse
                                                                 withAuthResponse:authState.lastAuthorizationResponse]);
